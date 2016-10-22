@@ -9,7 +9,10 @@ from scrapy.loader import ItemLoader
 class LeboncoinSpider(CrawlSpider):
     name = 'leboncoin'
     allowed_domains = ['leboncoin.fr']
-    start_urls = ['https://www.leboncoin.fr/annonces/offres/lorraine/']
+
+    def __init__(self, url=None, *args, **kwargs):
+        super(LeboncoinSpider, self).__init__(*args, **kwargs)
+        self.start_urls = [url]
 
     rules = (
         Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),

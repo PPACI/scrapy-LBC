@@ -8,4 +8,4 @@ Recupère :
 * prix
 * description
 
-Pour lancer : `scrapy crawl leboncoin -t json -o test.json`
+Pour lancer : `scrapy crawl leboncoin -t json -o test.json -a url=https://www.leboncoin.fr/ventes_immobilieres/`
