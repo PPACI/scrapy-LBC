@@ -5,14 +5,14 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy_LBC.items import Annonce
 from scrapy.loader import ItemLoader
 
-
 class LeboncoinSpider(CrawlSpider):
     name = 'leboncoin'
     allowed_domains = ['leboncoin.fr']
 
     def __init__(self, url=None, *args, **kwargs):
+        url = url.split(',')
         super(LeboncoinSpider, self).__init__(*args, **kwargs)
-        self.start_urls = [url]
+        self.start_urls = url
 
     rules = (
         Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),
