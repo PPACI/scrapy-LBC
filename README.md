@@ -34,7 +34,8 @@ Pour plus d'information sur les paramètres disponible : [scrapy-elasticsearch](
 }
 ```
 4) se placer dans le dossier `./scrapy_LBC`
-5) Lancer l'araignée `scrapy crawl leboncoin`
+
+5) **Lancer l'araignée `scrapy crawl leboncoin`**
 
 Actuellement, l'araignée récupère :
 * url
