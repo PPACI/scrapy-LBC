@@ -20,7 +20,7 @@ queuelib==1.4.2
 regex==2016.10.22
 ruamel.yaml==0.12.14
 Scrapy==1.1.1
-ScrapyElasticSearch==0.8.8
+ScrapyElasticSearch==0.8.9
 service-identity==14.0.0
 six==1.10.0
 Twisted==16.4.1

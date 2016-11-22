@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 import scrapy
 from scrapy.linkextractors import LinkExtractor
 from scrapy.spiders import CrawlSpider, Rule
@@ -6,14 +8,17 @@ from scrapy_LBC.items import Annonce
 from scrapy.loader import ItemLoader
 
 
+   
+
+
 class LeboncoinSpider(CrawlSpider):
     name = 'leboncoin'
     allowed_domains = ['leboncoin.fr']
 
-    def __init__(self, url=None, *args, **kwargs):
-        url = url.split(',')
+    def __init__(self, *args, **kwargs):
         super(LeboncoinSpider, self).__init__(*args, **kwargs)
-        self.start_urls = url
+        
+        self.start_urls = self.load_url()
 
     rules = (
         Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),
@@ -29,3 +34,8 @@ class LeboncoinSpider(CrawlSpider):
         i.add_css('description', '.properties_description p.value::text')
         i.add_css('tag', '.line h2:not(.item_price) span::text, .line h2:not(.item_price) span a::text')
         return i.load_item()
+
+    def load_url(self):
+        with open('url.json') as file:
+            data = json.load(file)
+            return data['urls']
