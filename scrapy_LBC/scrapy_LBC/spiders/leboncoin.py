@@ -5,6 +5,7 @@ from scrapy.spiders import CrawlSpider, Rule
 from scrapy_LBC.items import Annonce
 from scrapy.loader import ItemLoader
 
+
 class LeboncoinSpider(CrawlSpider):
     name = 'leboncoin'
     allowed_domains = ['leboncoin.fr']
@@ -26,4 +27,5 @@ class LeboncoinSpider(CrawlSpider):
         i.add_css('prix', '.item_price .value::text')
         i.add_css('date', 'section.properties p.line::text')
         i.add_css('description', '.properties_description p.value::text')
+        i.add_css('tag', '.line h2:not(.item_price) span::text, .line h2:not(.item_price) span a::text')
         return i.load_item()

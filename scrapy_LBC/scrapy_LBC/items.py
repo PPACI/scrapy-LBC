@@ -12,6 +12,38 @@ import re
 import dateparser
 
 
+def remove_empty_string(string_list):
+    return [element for element in string_list if element != '']
+
+
+def make_dict_from_list(string_list):
+    tags = dict()
+    for i in range(0, len(string_list) - 1, 2):
+        tags[string_list[i]] = string_list[i + 1]
+    return tags
+
+
+def convert_to_number(element):
+    try:
+        return int(element)
+    except ValueError:
+        try:
+            return float(element)
+        except ValueError:
+            return element
+
+
+def remove_unit(element):
+    if isinstance(element, str):
+        g = re.fullmatch("(\d+(?:\ \d+)*)\ ?\w+", element)
+        if g is not None:
+            return convert_to_number(g.group(1).replace(' ', ''))
+        else:
+            return element
+    else:
+        return element
+
+
 class Annonce(scrapy.Item):
     # define the fields for your item here like:
     url = scrapy.Field(output_processor=TakeFirst())
@@ -24,4 +56,7 @@ class Annonce(scrapy.Item):
                         output_processor=Compose(TakeFirst(), lambda d: dateparser.parse(d).isoformat()))
     description = scrapy.Field(input_processor=MapCompose(remove_tags, str.strip),
                                output_processor=Join())
-    pass
+    tag = scrapy.Field(
+        input_processor=Compose(MapCompose(str.strip, convert_to_number, remove_unit), remove_empty_string,
+                                make_dict_from_list),
+        output_processor=TakeFirst())
