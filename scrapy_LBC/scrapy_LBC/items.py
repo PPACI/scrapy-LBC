@@ -19,7 +19,7 @@ def remove_empty_string(string_list):
 def make_dict_from_list(string_list):
     tags = dict()
     for i in range(0, len(string_list) - 1, 2):
-        tags[string_list[i]] = string_list[i + 1]
+        tags[string_list[i].replace(' ', '_')] = string_list[i + 1]
     return tags
 
 
@@ -44,6 +44,14 @@ def remove_unit(element):
         return element
 
 
+def post_operation(tags):
+    try:
+        tags['Référence'] = str(tags['Référence'])
+    except KeyError:
+        pass
+    return tags
+
+
 class Annonce(scrapy.Item):
     # define the fields for your item here like:
     url = scrapy.Field(output_processor=TakeFirst())
@@ -59,4 +67,4 @@ class Annonce(scrapy.Item):
     tag = scrapy.Field(
         input_processor=Compose(MapCompose(str.strip, convert_to_number, remove_unit), remove_empty_string,
                                 make_dict_from_list),
-        output_processor=TakeFirst())
+        output_processor=Compose(TakeFirst(), post_operation))

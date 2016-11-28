@@ -8,7 +8,7 @@ from scrapy_LBC.items import Annonce
 from scrapy.loader import ItemLoader
 
 
-   
+
 
 
 class LeboncoinSpider(CrawlSpider):
@@ -17,12 +17,13 @@ class LeboncoinSpider(CrawlSpider):
 
     def __init__(self, *args, **kwargs):
         super(LeboncoinSpider, self).__init__(*args, **kwargs)
-        
+
         self.start_urls = self.load_url()
 
     rules = (
         Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),
-        Rule(LinkExtractor(allow=r'https:\/\/www\.leboncoin\.fr\/\w+\/\d+\.htm'), callback='parse_item', follow=False),
+        Rule(LinkExtractor(allow=r'https:\/\/www\.leboncoin\.fr\/\w+\/\d+\.htm'),
+             callback='parse_item', follow=False),
     )
 
     def parse_item(self, response):
