@@ -47,7 +47,7 @@ Actuellement, l'araignée récupère :
 
 **Par défaut l'araginée ne parcours d'une page par seconde, n'essayez pas de parcours TOUT LeBonCoin à moins d'etre très patient.**
 
-Il est possible d'augmenter la vitesse de l'araignée via les paramètres
+Il est possible d'augmenter la vitesse de l'araignée via les paramètres.
 ```
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 1
@@ -57,5 +57,7 @@ CONCURRENT_REQUESTS = 1
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 1
 ```
+
+*L'araignée ne traite maintenant plus deux fois la même annonce (identifié par l'url)'.*
 
 **Mise en garde** : un delai trop faible (0 par exemple) combiné à de nombreuses requetes concurrentes peuvent vous faire bannir temporairement de LeBonCoin. 
