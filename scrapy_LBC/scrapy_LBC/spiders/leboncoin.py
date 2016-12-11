@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 import json
 
-import scrapy
 from scrapy.linkextractors import LinkExtractor
-from scrapy.spiders import CrawlSpider, Rule
-from scrapy_LBC.items import Annonce
 from scrapy.loader import ItemLoader
+from scrapy.spiders import CrawlSpider, Rule
 
-
-
+from scrapy_LBC.items import Annonce
+from scrapy_LBC.spiders.ElasticHelpers import ElasticHelpers
 
 
 class LeboncoinSpider(CrawlSpider):
@@ -16,15 +14,14 @@ class LeboncoinSpider(CrawlSpider):
     allowed_domains = ['leboncoin.fr']
 
     def __init__(self, *args, **kwargs):
+        self.elastic = ElasticHelpers(self)
+        self.rules = (
+            Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),
+            Rule(LinkExtractor(allow=r'https:\/\/www\.leboncoin\.fr\/\w+\/\d+\.htm'),
+                 callback='parse_item', follow=False, process_links=self.elastic.process_url),
+        )
         super(LeboncoinSpider, self).__init__(*args, **kwargs)
-
         self.start_urls = self.load_url()
-
-    rules = (
-        Rule(LinkExtractor(allow=r'.*?o=\d+.*'), follow=True),
-        Rule(LinkExtractor(allow=r'https:\/\/www\.leboncoin\.fr\/\w+\/\d+\.htm'),
-             callback='parse_item', follow=False),
-    )
 
     def parse_item(self, response):
         i = ItemLoader(item=Annonce(), response=response)

@@ -14,6 +14,8 @@ BOT_NAME = 'scrapy_LBC'
 SPIDER_MODULES = ['scrapy_LBC.spiders']
 NEWSPIDER_MODULE = 'scrapy_LBC.spiders'
 
+LOG_LEVEL = 'INFO'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scrapy_LBC (+http://www.yourdomain.com)'
 
